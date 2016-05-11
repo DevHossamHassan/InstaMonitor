@@ -1,0 +1,64 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    group = 'com.brandedme.hossamhassan.InstaMonitor' // Change this to match your package name
+    version = '1.0.1' // Change this to match your version number
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+}
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+task generateJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath()
+            .join(File.pathSeparator))
+}
+/*task generateJavadocsJar(type: Jar) {
+    from generateJavadocs.destinationDir
+    classifier 'javadoc'
+}*/
+//generateJavadocsJar.dependsOn generateJavadocs
+/*artifacts {
+    archives generateJavaDocsJar
+    archives generateSourcesJar
+}*/
+bintray {
+    user = 'hossamhassan'
+    key = 'a8772a6941793f030aec624558e475f7ab721842'
+    pkg {
+        repo = 'maven'
+        name = 'com.brandedme.hossamhassan.InstaMonitor'
+
+        version {
+            name = '1.0.1-tuts'
+            desc = 'My test upload'
+            released  = new Date()
+            vcsTag = '1.0.1'
+        }
+
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/hathibelagal/LibraryTutorial.git'
+        websiteUrl = 'https://github.com/hathibelagal/LibraryTutorial'
+    }
+    configurations = ['archives']
+}
