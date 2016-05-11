@@ -10,7 +10,7 @@ InstaMonitor is an Android library that can provide the following for any applic
 
  Let's get started:
  
- # Usage
+ #Usage
    just one line of code to add to your Application class:
         //init InstaMonitor
         InstaMonitor.getInstance().init(this);
@@ -21,7 +21,7 @@ InstaMonitor is an Android library that can provide the following for any applic
 
 
 
-# Setup
+#Setup
   Including in your project via :
 
   gradle :
