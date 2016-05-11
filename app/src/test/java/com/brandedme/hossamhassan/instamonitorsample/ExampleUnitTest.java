@@ -1,4 +1,4 @@
-package com.brandedme.hossamhassan.instamonitor_sample;
+package com.brandedme.hossamhassan.instamonitorsample;
 
 import org.junit.Test;
 

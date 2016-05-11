@@ -17,6 +17,8 @@ final public class Prefs {
     final public static String START="START";
     final public static String END="END";
     final public static String SESSION="SESSION";
+    public static String APP_SESSION_STARTED="APP_SESSION_STARTED";
+    public static String APP_SESSION_ENDED="APP_SESSION_ENDED";
 
     private Prefs() {}
     /**

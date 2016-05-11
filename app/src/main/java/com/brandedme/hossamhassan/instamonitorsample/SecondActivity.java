@@ -1,4 +1,4 @@
-package com.brandedme.hossamhassan.instamonitor_sample;
+package com.brandedme.hossamhassan.instamonitorsample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,24 +6,30 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.brandedme.hossamhassan.instamonitor.InstaMonitor;
+import com.brandedme.hossamhassan.instamonitor.Session;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SecondActivity extends AppCompatActivity {
-    HashMap<String, String> appData;
+    ArrayList<Session>sessionsList;
     @Bind(R.id.tvDataMap)
     TextView tvData;
     InstaMonitor instaMonitor;
     @OnClick(R.id.btnGetData)void onGetDataClicked()
     {
         instaMonitor = InstaMonitor.getInstance();
-        appData = instaMonitor.getMonitorData();
-        if (appData != null)
-            tvData.setText(appData.toString());
+        sessionsList = instaMonitor.getMonitorData();
+        if (sessionsList != null) {
+            for (Session session:sessionsList)
+            {
+                String data=tvData.getText()+session.getName()+"\t"+session.getTime();
+                tvData.setText(data);
+            }
+        }
         else
             tvData.setText("Null");
     }
