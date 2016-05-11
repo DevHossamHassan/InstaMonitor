@@ -15,24 +15,23 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SecondActivity extends AppCompatActivity {
-    ArrayList<Session>sessionsList;
+    ArrayList<Session> sessionsList;
     @Bind(R.id.tvDataMap)
     TextView tvData;
-    InstaMonitor instaMonitor;
-    @OnClick(R.id.btnGetData)void onGetDataClicked()
-    {
-        instaMonitor = InstaMonitor.getInstance();
-        sessionsList = instaMonitor.getMonitorData();
+
+    @OnClick(R.id.btnGetData)
+    void onGetDataClicked() {
+        sessionsList = InstaMonitor.getInstance().getMonitorData();
+
         if (sessionsList != null) {
-            for (Session session:sessionsList)
-            {
-                String data=tvData.getText()+session.getName()+"\t"+session.getTime();
+            for (Session session : sessionsList) {
+                String data = tvData.getText() + session.getName() + "\t" + session.getTime();
                 tvData.setText(data);
             }
-        }
-        else
+        } else
             tvData.setText("Null");
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
