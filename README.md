@@ -9,14 +9,18 @@ InstaMonitor is an Android library that can provide the following for any applic
 6. Use local storage to store the results across application sessions
 
 
- Let's get started:
+# Let's get started:
  
 # Usage
-   just one line of code to add to your Application class:
-        //init InstaMonitor
-        InstaMonitor.getInstance().init(this);
+
+          just one line of code to add to your Application class:
+
+                 InstaMonitor.getInstance().init(this);
         
-        and now feel free to get the data anytime and  anywhere.
+        
+        
+          and now feel free to get the data anytime and  anywhere.
+          
                     ArrayList<Session> sessionsList;
                     sessionsList = InstaMonitor.getInstance().getMonitorData();
 
@@ -28,7 +32,9 @@ InstaMonitor is an Android library that can provide the following for any applic
        gradle :
                compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.2'
   
-  Or
+  
+   Or
+
         Maven :
               <dependency>
                 <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
