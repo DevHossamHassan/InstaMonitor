@@ -1,5 +1,6 @@
 # InstaMonitor
 InstaMonitor is an Android library that can provide the following for any application:
+
 1. Period of time for which the application was open 
 2. Period of time spent on each Activity 
 3. Period of time spent on each Fragment 
@@ -10,7 +11,7 @@ InstaMonitor is an Android library that can provide the following for any applic
 
  Let's get started:
  
- #Usage
+# Usage
    just one line of code to add to your Application class:
         //init InstaMonitor
         InstaMonitor.getInstance().init(this);
@@ -21,17 +22,17 @@ InstaMonitor is an Android library that can provide the following for any applic
 
 
 
-#Setup
+# Setup
   Including in your project via :
 
-  gradle :
-  compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.2'
+       gradle :
+               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.2'
   
-Or
-   Maven :
-<dependency>
-  <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
-  <artifactId>InstaMonitor</artifactId>
-  <version>1.0.2</version>
-  <type>pom</type>
-</dependency>
+  Or
+        Maven :
+              <dependency>
+                <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
+                <artifactId>InstaMonitor</artifactId>
+                <version>1.0.2</version>
+                <type>pom</type>
+              </dependency>
