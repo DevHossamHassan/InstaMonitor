@@ -1,6 +1,7 @@
 package com.brandedme.hossamhassan.instamonitor;
 
 /**
+ *
  * Created by Hossam on 5/11/2016.
  */
 public class Session {

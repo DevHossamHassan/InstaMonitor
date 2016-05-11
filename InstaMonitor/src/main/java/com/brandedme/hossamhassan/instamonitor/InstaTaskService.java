@@ -27,6 +27,10 @@ public class InstaTaskService extends Service {
         Log.i(TAG, "Service Destroyed");
     }
 
+    /**
+     * save session end time
+     * @param rootIntent
+     */
     public void onTaskRemoved(Intent rootIntent) {
         Log.i(TAG, "END");
         Long startTime=Prefs.getLongPreference(this,Prefs.APP_SESSION_STARTED,InstaMonitor.getInstance().getStartTime());

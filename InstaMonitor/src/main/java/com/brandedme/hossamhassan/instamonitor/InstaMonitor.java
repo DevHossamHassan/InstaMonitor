@@ -23,11 +23,21 @@ public class InstaMonitor {
     private long startTime, endTime;
     List<ActivityInfo> list;
     ArrayList<Session> sessionsList;
+    ArrayList<Activity> activitiesList;
+    Boolean enableDebugMode=false;
     private static InstaMonitor instaMonitor = new InstaMonitor();
 
+    /**
+     * private constructor  to prevent user from instantiate objects
+     */
     private InstaMonitor() {
     }
 
+    /**
+     * singleton
+     *
+     * @return InstaMonitor object
+     */
     public static InstaMonitor getInstance() {
         return instaMonitor;
     }
@@ -45,6 +55,9 @@ public class InstaMonitor {
         getActivitiesList();
     }
 
+    /**
+     * start service for notify if application task is killed
+     */
     void startWatcherService() {
         Log.i(TAG, "startWatcherService: ");
         application.startService(new Intent(application, InstaTaskService.class));
@@ -55,7 +68,7 @@ public class InstaMonitor {
      */
     private void setStartTime() {
         startTime = System.currentTimeMillis();
-        Prefs.setLongPreference(application,Prefs.APP_SESSION_STARTED,startTime);
+        Prefs.setLongPreference(application, Prefs.APP_SESSION_STARTED, startTime);
         Log.i(TAG, "setStartTime: " + startTime);
     }
 
@@ -90,6 +103,10 @@ public class InstaMonitor {
                 calculateActivityTime(activity);
             }
 
+            /**
+             * save session duration for each activity
+             * @param activity
+             */
             void calculateActivityTime(Activity activity) {
 
                 String activityName = activity.getClass().getName();
@@ -100,9 +117,9 @@ public class InstaMonitor {
 
                 Long session = (currentTime - Prefs.getLongPreference(activity, activityName + Prefs.START, 0));
 
-                Long lastSession=Prefs.getLongPreference(activity,activityName+Prefs.SESSION,0);
+                Long lastSession = Prefs.getLongPreference(activity, activityName + Prefs.SESSION, 0);
 
-                Prefs.setLongPreference(activity, activityName + Prefs.SESSION, session+lastSession);
+                Prefs.setLongPreference(activity, activityName + Prefs.SESSION, session + lastSession);
             }
 
             @Override
@@ -126,6 +143,9 @@ public class InstaMonitor {
         });
     }
 
+    /**
+     * get all application activities
+     */
     void getActivitiesList() {
         list = new ArrayList<>();
         try {
@@ -138,22 +158,42 @@ public class InstaMonitor {
         } catch (Exception e) {
             e.printStackTrace();
             Log.i(TAG, "getActivities: general" + e.getMessage());
-
         }
 
     }
 
+    /**
+     * add activities for ignore monitoring
+     *
+     * @param activities
+     * @return InstaMonitor
+     */
+    InstaMonitor ignoreActivity(Activity... activities) {
+        activitiesList = new ArrayList<>();
+        for (Activity activity : activities) {
+            activitiesList.add(activity);
+        }
+        return instaMonitor;
+    }
 
-    public String convertDuration(long miliSeconds) {
+    /**
+     * convert duration from
+     *
+     * @param milliSeconds
+     * @return Duration as a String
+     */
+    public String convertDuration(long milliSeconds) {
 
-        int dys = (int) TimeUnit.MILLISECONDS.toDays(miliSeconds) % 30;
-        int hrs = (int) TimeUnit.MILLISECONDS.toHours(miliSeconds) % 24;
-        int min = (int) TimeUnit.MILLISECONDS.toMinutes(miliSeconds) % 60;
-        int sec = (int) TimeUnit.MILLISECONDS.toSeconds(miliSeconds) % 60;
+        int dys = (int) TimeUnit.MILLISECONDS.toDays(milliSeconds);
+        int hrs = (int) TimeUnit.MILLISECONDS.toHours(milliSeconds) % 24;
+        int min = (int) TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
+        int sec = (int) TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
         return String.format(" %02dd : %02dh : %02dm : %02ds", dys, hrs, min, sec);
     }
 
-
+    /**
+     * @return ArrayList of Sessions contains  name and duration
+     */
     public ArrayList<Session> getMonitorData() {
 
         if (list != null) {
@@ -178,6 +218,9 @@ public class InstaMonitor {
          */
     }
 
+    /**
+     * @return startTime as long of milliseconds
+     */
     public long getStartTime() {
         return startTime;
     }

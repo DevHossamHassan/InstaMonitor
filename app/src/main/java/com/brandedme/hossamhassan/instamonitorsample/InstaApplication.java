@@ -11,6 +11,8 @@ public class InstaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //init InstaMonitor
         InstaMonitor.getInstance().init(this);
+
     }
 }
