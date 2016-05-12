@@ -26,5 +26,11 @@
             android:layout_height="wrap_content"
             android:text="Send Report"/>
     </android.support.v7.widget.LinearLayoutCompat>
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 </RelativeLayout>

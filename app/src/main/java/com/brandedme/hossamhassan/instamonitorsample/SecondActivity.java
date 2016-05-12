@@ -21,15 +21,7 @@ public class SecondActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnGetData)
     void onGetDataClicked() {
-        sessionsList = InstaMonitor.getInstance().getMonitorData();
-
-        if (sessionsList != null) {
-            for (Session session : sessionsList) {
-                String data = tvData.getText() + session.getShortName() + "\t" + session.getTime();
-                tvData.setText(data);
-            }
-        } else
-            tvData.setText("Null");
+        getData();
     }
 
     @Override
@@ -42,6 +34,17 @@ public class SecondActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
+    }
+    void getData()
+    {
+        sessionsList = InstaMonitor.getInstance().getMonitorData();
+        if (sessionsList != null) {
+            for (Session session : sessionsList) {
+                String data = tvData.getText() + session.getShortName() + "\t" + session.getTime()+"\n";
+                tvData.setText(data);
+            }
+        } else
+            tvData.setText("Null");
     }
 
 }

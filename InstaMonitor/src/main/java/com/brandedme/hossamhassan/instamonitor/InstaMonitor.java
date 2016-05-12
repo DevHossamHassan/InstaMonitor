@@ -211,8 +211,8 @@ public class InstaMonitor {
     public ArrayList<Session> getMonitorData() {
         ArrayList<Session>sessionsList;
         List<String>fragmentsIds;
+        sessionsList = new ArrayList<>();
         if (list != null) {
-            sessionsList = new ArrayList<>();
             Session appSession = new Session();
             appSession.setName(application.getClass().getName());
             appSession.setTime(convertDuration(Prefs.getLongPreference(application, Prefs.APP_SESSION, 0)));
@@ -223,7 +223,8 @@ public class InstaMonitor {
                 session.setTime(convertDuration(Prefs.getLongPreference(application, activity.name + Prefs.SESSION, 0)));
                 sessionsList.add(session);
             }
-           fragmentsIds= Prefs.getFragmentsIdFromShared(application,Prefs.FRAGMENT_NAMES);
+        }
+           fragmentsIds= Prefs.getFragmentsIdFromShared(application);
             if (fragmentsIds!=null)
             {
                 for (String fragmentId : fragmentsIds) {
@@ -231,12 +232,9 @@ public class InstaMonitor {
                     session.setName(fragmentId);
                     session.setTime(convertDuration(Prefs.getLongPreference(application, fragmentId+ Prefs.SESSION, 0)));
                     sessionsList.add(session);
-
                 }
             }
             return sessionsList;
-        }
-        return null;
     }
 
     /**

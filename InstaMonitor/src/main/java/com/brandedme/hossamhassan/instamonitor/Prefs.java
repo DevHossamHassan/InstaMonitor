@@ -30,7 +30,6 @@ final public class Prefs {
 
     /**
      * Helper method to retrieve a String value from {@link SharedPreferences}.
-     *
      * @param context a {@link Context} object.
      * @param key     should be unique for this value
      * @return The value from shared preferences, or null if the value could not be read.
@@ -63,46 +62,42 @@ final public class Prefs {
     }
 
     /**
-     * @param context a {@link Context} object.
-     * @param value   value of this unique key
+     * @param context    a {@link Context} object.
+     * @param fragmentId value of this unique key
      * @return true if done and false if no preferences
      */
-    public static boolean addFragmentIdToShared(Context context, String value) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        if (preferences != null && !isExistInShared(context, FRAGMENT_NAMES, value)) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(FRAGMENT_NAMES, getStringPreference(context, FRAGMENT_NAMES) + "," + value);
-            return editor.commit();
+    public static boolean addFragmentIdToShared(Context context, String fragmentId) {
+        if (!isExistInShared(context, fragmentId)) {
+            setStringPreference(context,FRAGMENT_NAMES,getStringPreference(context, FRAGMENT_NAMES) + "," + fragmentId);
+            return true;
         }
         return false;
     }
 
     /**
-     * @param context for sharedPreferences
-     * @param key     for get specific sharedValue
-     * @param value   for the value to search for
+     * @param context    for sharedPreferences
+     * @param fragmentId for the value to search for
      * @return true if exist false if does not exist
      */
-    public static boolean isExistInShared(Context context, String key, String value) {
-        if (getFragmentsIdFromShared(context, key) == null)
+    public static boolean isExistInShared(Context context, String fragmentId) {
+        String fragmentsIds = getStringPreference(context, FRAGMENT_NAMES);
+        if (fragmentsIds == null || !fragmentsIds.contains(fragmentId))
             return false;
-
-        return (getFragmentsIdFromShared(context, key).indexOf(value) == 0) ? false : true;
+        return true;
     }
 
     /**
-     * get List of Fragment Names
+     * get List of Fragment Names from shared
      *
      * @param context a {@link Context} object.
-     * @param key     should be unique for this value
      * @return
      */
-    public static List<String> getFragmentsIdFromShared(Context context, String key) {
-        String saved = getStringPreference(context, key);
+    public static List<String> getFragmentsIdFromShared(Context context) {
+        String saved = getStringPreference(context, FRAGMENT_NAMES);
         if (saved == null)
             return null;
         saved = (saved.startsWith(",")) ? saved.substring(1) : saved;
+        saved =(saved.startsWith("null,"))?saved.substring(5):saved;
         return Arrays.asList(saved.split(","));
     }
 
@@ -230,7 +225,6 @@ final public class Prefs {
 
     /**
      * Helper method to write a boolean value to {@link SharedPreferences}.
-     *
      * @param context a {@link Context} object.
      * @param key     should be unique for this value
      * @param value   value of this unique key
