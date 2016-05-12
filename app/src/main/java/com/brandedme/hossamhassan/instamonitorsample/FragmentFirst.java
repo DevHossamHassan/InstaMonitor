@@ -16,7 +16,7 @@ import butterknife.OnClick;
 public class FragmentFirst extends InstaFragmentS4 {
    @OnClick(R.id.btnExit)void onExit()
     {
-        this.getActivity().onBackPressed();
+        getActivity().onBackPressed();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
