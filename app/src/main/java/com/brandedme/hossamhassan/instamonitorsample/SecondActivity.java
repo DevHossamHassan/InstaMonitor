@@ -25,7 +25,7 @@ public class SecondActivity extends AppCompatActivity {
 
         if (sessionsList != null) {
             for (Session session : sessionsList) {
-                String data = tvData.getText() + session.getName() + "\t" + session.getTime();
+                String data = tvData.getText() + session.getShortName() + "\t" + session.getTime();
                 tvData.setText(data);
             }
         } else

@@ -1,20 +1,19 @@
 package com.brandedme.hossamhassan.instamonitor;
 
-
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * InstaFragment extended from Fragment
+ * InstaFragmentS4 extended from Fragment from android support v4
  * for tracking Fragments that will extend it
- * Created by Hossam on 5/11/2016.
+ * Created by Hossam on 5/12/2016.
  */
-public class InstaFragment extends Fragment {
-    public InstaFragment() {
+public class InstaFragmentS4 extends Fragment {
+    public InstaFragmentS4() {
         super();
     }
 
@@ -23,9 +22,8 @@ public class InstaFragment extends Fragment {
         super.onAttach(context);
         InstaLog.d("onAttach : "+this.getClass().getName());
         Prefs.addFragmentIdToShared(this.getActivity(),this.getClass().getName());
+
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

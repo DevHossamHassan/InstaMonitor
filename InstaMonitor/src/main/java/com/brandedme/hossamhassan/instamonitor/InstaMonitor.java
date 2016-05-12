@@ -2,15 +2,17 @@ package com.brandedme.hossamhassan.instamonitor;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,13 +20,29 @@ import java.util.concurrent.TimeUnit;
  * InstaMonitor  is a singleton using lazy instantiation technique
  */
 public class InstaMonitor {
-    public static String TAG = "INSTA_MONITOR";
+    private static String TAG = "INSTA_MONITOR";
     private Application application;
     private long startTime, endTime;
-    List<ActivityInfo> list;
-    ArrayList<Session> sessionsList;
-    ArrayList<Activity> activitiesList;
-    Boolean enableDebugMode=false;
+    private List<ActivityInfo> list;
+    private ArrayList<Activity> activitiesList;
+    private static Boolean enableDebugMode=false;
+
+    public static String getTAG() {
+        return TAG;
+    }
+
+    public static void setTAG(String TAG) {
+        InstaMonitor.TAG = TAG;
+    }
+
+    public static Boolean isEnabledDebugMode() {
+        return enableDebugMode;
+    }
+
+    public static void setEnableDebugMode(Boolean enableDebugMode) {
+        InstaMonitor.enableDebugMode = enableDebugMode;
+    }
+
     private static InstaMonitor instaMonitor = new InstaMonitor();
 
     /**
@@ -44,8 +62,7 @@ public class InstaMonitor {
 
     /**
      * init for initialize InstaMonitor
-     *
-     * @param application
+     * @param application assign application to user application
      */
     public void init(Application application) {
         this.application = application;
@@ -59,7 +76,7 @@ public class InstaMonitor {
      * start service for notify if application task is killed
      */
     void startWatcherService() {
-        Log.i(TAG, "startWatcherService: ");
+        InstaLog.d("startWatcherService: ");
         application.startService(new Intent(application, InstaTaskService.class));
     }
 
@@ -69,7 +86,7 @@ public class InstaMonitor {
     private void setStartTime() {
         startTime = System.currentTimeMillis();
         Prefs.setLongPreference(application, Prefs.APP_SESSION_STARTED, startTime);
-        Log.i(TAG, "setStartTime: " + startTime);
+        InstaLog.d("setStartTime: " + startTime);
     }
 
 
@@ -80,69 +97,69 @@ public class InstaMonitor {
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle bundle) {
-                Log.i(TAG, "onActivityCreated: " + activity.getClass().getName());
+                InstaLog.d("onActivityCreated: " + activity.getClass().getName());
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
-                Log.i(TAG, "onActivityStarted: " + activity.getClass().getName());
+                InstaLog.d("onActivityStarted: " + activity.getClass().getName());
 
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
                 String activityName = activity.getClass().getName();
-                Log.i(TAG, "onActivityResumed: " + activityName);
+                InstaLog.d("onActivityResumed: " + activityName);
                 Prefs.setLongPreference(activity, activityName + Prefs.START, System.currentTimeMillis());
 
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-                Log.i(TAG, "onActivityPaused: " + activity.getClass().getName());
-                calculateActivityTime(activity);
+                InstaLog.d("onActivityPaused: " + activity.getClass().getName());
+                calculateSession(activity,activity.getClass().getName());
             }
 
-            /**
-             * save session duration for each activity
-             * @param activity
-             */
-            void calculateActivityTime(Activity activity) {
 
-                String activityName = activity.getClass().getName();
-
-                Long currentTime = System.currentTimeMillis();
-
-                Prefs.setLongPreference(activity, activityName + Prefs.END, currentTime);
-
-                Long session = (currentTime - Prefs.getLongPreference(activity, activityName + Prefs.START, 0));
-
-                Long lastSession = Prefs.getLongPreference(activity, activityName + Prefs.SESSION, 0);
-
-                Prefs.setLongPreference(activity, activityName + Prefs.SESSION, session + lastSession);
-            }
 
             @Override
             public void onActivityStopped(Activity activity) {
-                Log.i(TAG, "onActivityStopped: " + activity.getClass().getName());
+                InstaLog.d("onActivityStopped: " + activity.getClass().getName());
 
 
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-                Log.i(TAG, "onActivitySaveInstanceState: " + activity.getClass().getName());
+                InstaLog.d("onActivitySaveInstanceState: " + activity.getClass().getName());
 
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                Log.i(TAG, "onActivityDestroyed: " + activity.getClass().getName());
+                InstaLog.d("onActivityDestroyed: " + activity.getClass().getName());
 
             }
+
         });
     }
+    /**
+     * save session duration for each activity
+     * @param context set timestamp for each activity or fragment  at onPaused event
+     * @param className could be full name of Activity or fragment
+     */
+    public  void calculateSession(Context context,String className) {
 
+        Long currentTime = System.currentTimeMillis();
+
+        Prefs.setLongPreference(context, className + Prefs.END, currentTime);
+
+        Long session = (currentTime - Prefs.getLongPreference(context, className + Prefs.START, 0));
+
+        Long lastSession = Prefs.getLongPreference(context, className + Prefs.SESSION, 0);
+
+        Prefs.setLongPreference(context, className + Prefs.SESSION, session + lastSession);
+    }
     /**
      * get all application activities
      */
@@ -153,33 +170,30 @@ public class InstaMonitor {
                     PackageManager.GET_ACTIVITIES).activities);
         } catch (PackageManager.NameNotFoundException e1) {
             e1.printStackTrace();
-            Log.i(TAG, "getActivities special: " + e1.getMessage());
+            InstaLog.d("getActivities Name not found exception: " + e1.getMessage());
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i(TAG, "getActivities: general" + e.getMessage());
+            InstaLog.d("getActivities global exception: " + e.getMessage());
         }
 
     }
 
     /**
      * add activities for ignore monitoring
-     *
-     * @param activities
+     * @param activities get excluded activities from tracking
      * @return InstaMonitor
      */
     InstaMonitor ignoreActivity(Activity... activities) {
         activitiesList = new ArrayList<>();
-        for (Activity activity : activities) {
-            activitiesList.add(activity);
-        }
+        Collections.addAll(activitiesList, activities);
         return instaMonitor;
     }
 
     /**
      * convert duration from
      *
-     * @param milliSeconds
+     * @param milliSeconds timestamp in milliSeconds could be System.currentTimeMillis()
      * @return Duration as a String
      */
     public String convertDuration(long milliSeconds) {
@@ -188,14 +202,15 @@ public class InstaMonitor {
         int hrs = (int) TimeUnit.MILLISECONDS.toHours(milliSeconds) % 24;
         int min = (int) TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
         int sec = (int) TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
-        return String.format(" %02dd : %02dh : %02dm : %02ds", dys, hrs, min, sec);
+        return String.format(Locale.US," %02dd : %02dh : %02dm : %02ds", dys, hrs, min, sec);
     }
 
     /**
      * @return ArrayList of Sessions contains  name and duration
      */
     public ArrayList<Session> getMonitorData() {
-
+        ArrayList<Session>sessionsList;
+        List<String>fragmentsIds;
         if (list != null) {
             sessionsList = new ArrayList<>();
             Session appSession = new Session();
@@ -208,14 +223,20 @@ public class InstaMonitor {
                 session.setTime(convertDuration(Prefs.getLongPreference(application, activity.name + Prefs.SESSION, 0)));
                 sessionsList.add(session);
             }
+           fragmentsIds= Prefs.getFragmentsIdFromShared(application,Prefs.FRAGMENT_NAMES);
+            if (fragmentsIds!=null)
+            {
+                for (String fragmentId : fragmentsIds) {
+                    Session session = new Session();
+                    session.setName(fragmentId);
+                    session.setTime(convertDuration(Prefs.getLongPreference(application, fragmentId+ Prefs.SESSION, 0)));
+                    sessionsList.add(session);
+
+                }
+            }
             return sessionsList;
         }
         return null;
-        /*
-        String className = xxx.getClass();
-        int pos = className.lastIndexOf ('.') + 1;
-        String onlyClass = className.substring(pos);
-         */
     }
 
     /**

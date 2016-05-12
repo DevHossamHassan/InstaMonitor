@@ -13,6 +13,5 @@ public class InstaApplication extends Application {
         super.onCreate();
         //init InstaMonitor
         InstaMonitor.getInstance().init(this);
-        InstaMonitor.getInstance().getMonitorData();
     }
 }
