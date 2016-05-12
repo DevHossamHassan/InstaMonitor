@@ -13,32 +13,38 @@ InstaMonitor is an Android library that can provide the following for any applic
  
 # Usage
 
-          just one line of code to add to your Application class:
+  just one line of code to add to your Application class:
 
                  InstaMonitor.getInstance().init(this);
         
         
         
-          and now feel free to get the data anytime and  anywhere.
+  and now feel free to get the data anytime and  anywhere.
           
                     ArrayList<Session> sessionsList;
                     sessionsList = InstaMonitor.getInstance().getMonitorData();
-
+                    
+  for tracking your fragments usage 
+  
+      just extend InstaFragment    if you plan to extend Fragment from android.app.Fragment
+      or          InstaFragmentS4  for Fragment from android.support.v4.app.Fragment
+      
 
 
 # Setup
   Including in your project via :
 
-       gradle :
-               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.2'
-  
+   gradle :
+   
+               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.7'
   
    Or
 
-        Maven :
+   Maven :
+   
               <dependency>
                 <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
                 <artifactId>InstaMonitor</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.7</version>
                 <type>pom</type>
               </dependency>
