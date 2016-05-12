@@ -23,7 +23,12 @@ InstaMonitor is an Android library that can provide the following for any applic
           
                     ArrayList<Session> sessionsList;
                     sessionsList = InstaMonitor.getInstance().getMonitorData();
-
+                    
+  for tracking your fragments usage 
+  
+      just extend InstaFragment    if you plan to extend Fragment from android.app.Fragment
+      or          InstaFragmentS4  for Fragment from android.support.v4.app.Fragment
+      
 
 
 # Setup
