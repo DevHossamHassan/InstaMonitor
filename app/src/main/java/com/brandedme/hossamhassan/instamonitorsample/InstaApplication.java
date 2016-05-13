@@ -13,5 +13,7 @@ public class InstaApplication extends Application {
         super.onCreate();
         //init InstaMonitor
         InstaMonitor.getInstance().init(this);
+        InstaMonitor.setEnableDebugMode(true);
+        InstaMonitor.ignoreActivity(SecondActivity.class);
     }
 }

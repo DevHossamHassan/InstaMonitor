@@ -23,9 +23,10 @@ public class InstaMonitor {
     private static String TAG = "INSTA_MONITOR";
     private Application application;
     private long startTime, endTime;
+    private ArrayList<Session> sessionsList;
     private List<ActivityInfo> list;
-    private ArrayList<Activity> activitiesList;
-    private static Boolean enableDebugMode=false;
+    private static ArrayList<Class> excludedActivitiesList;
+    private static Boolean enableDebugMode = false;
 
     public static String getTAG() {
         return TAG;
@@ -62,6 +63,7 @@ public class InstaMonitor {
 
     /**
      * init for initialize InstaMonitor
+     *
      * @param application assign application to user application
      */
     public void init(Application application) {
@@ -97,69 +99,85 @@ public class InstaMonitor {
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle bundle) {
-                InstaLog.d("onActivityCreated: " + activity.getClass().getName());
+                if (!excludedActivitiesList.contains(activity.getClass()))
+                    InstaLog.d("onActivityCreated: " + activity.getClass().getName());
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
-                InstaLog.d("onActivityStarted: " + activity.getClass().getName());
+                if (!excludedActivitiesList.contains(activity.getClass()))
+                    InstaLog.d("onActivityStarted: " + activity.getClass().getName());
 
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
-                String activityName = activity.getClass().getName();
-                InstaLog.d("onActivityResumed: " + activityName);
-                Prefs.setLongPreference(activity, activityName + Prefs.START, System.currentTimeMillis());
+                if (!excludedActivitiesList.contains(activity.getClass())) {
+                    String activityName = activity.getClass().getName();
+                    InstaLog.d("onActivityResumed: " + activityName);
+                    Prefs.setLongPreference(activity, activityName + Prefs.START, System.currentTimeMillis());
+                }
 
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-                InstaLog.d("onActivityPaused: " + activity.getClass().getName());
-                calculateSession(activity,activity.getClass().getName());
+                if (!excludedActivitiesList.contains(activity.getClass())) {
+                    InstaLog.d("onActivityPaused: " + activity.getClass().getName());
+                    calculateSession(activity, activity.getClass().getName());
+                }
             }
-
 
 
             @Override
             public void onActivityStopped(Activity activity) {
-                InstaLog.d("onActivityStopped: " + activity.getClass().getName());
+                if (!excludedActivitiesList.contains(activity.getClass())) {
+                    InstaLog.d("onActivityStopped: " + activity.getClass().getName());
+                }
 
 
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-                InstaLog.d("onActivitySaveInstanceState: " + activity.getClass().getName());
+                if (!excludedActivitiesList.contains(activity.getClass())) {
+                    InstaLog.d("onActivitySaveInstanceState: " + activity.getClass().getName());
+                }
 
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                InstaLog.d("onActivityDestroyed: " + activity.getClass().getName());
+                if (!excludedActivitiesList.contains(activity.getClass())) {
+                    InstaLog.d("onActivityDestroyed: " + activity.getClass().getName());
+                }
 
             }
 
         });
     }
+
     /**
      * save session duration for each activity
-     * @param context set timestamp for each activity or fragment  at onPaused event
+     *
+     * @param context   set timestamp for each activity or fragment  at onPaused event
      * @param className could be full name of Activity or fragment
      */
-    public  void calculateSession(Context context,String className) {
+    public void calculateSession(Context context, String className) {
 
         Long currentTime = System.currentTimeMillis();
 
         Prefs.setLongPreference(context, className + Prefs.END, currentTime);
 
-        Long session = (currentTime - Prefs.getLongPreference(context, className + Prefs.START, 0));
-
-        Long lastSession = Prefs.getLongPreference(context, className + Prefs.SESSION, 0);
-
-        Prefs.setLongPreference(context, className + Prefs.SESSION, session + lastSession);
+        Long lastStartTimeStamp = Prefs.getLongPreference(context, className + Prefs.START, 0);
+        if (lastStartTimeStamp != 0) {
+            Long session = (currentTime - lastStartTimeStamp);
+            Long lastSession = Prefs.getLongPreference(context, className + Prefs.SESSION, 0);
+            Prefs.setLongPreference(context, className + Prefs.SESSION, session + lastSession);
+        }
     }
+
+
     /**
      * get all application activities
      */
@@ -181,13 +199,11 @@ public class InstaMonitor {
 
     /**
      * add activities for ignore monitoring
-     * @param activities get excluded activities from tracking
-     * @return InstaMonitor
+     * @param activities Class get excluded activities from tracking
      */
-    InstaMonitor ignoreActivity(Activity... activities) {
-        activitiesList = new ArrayList<>();
-        Collections.addAll(activitiesList, activities);
-        return instaMonitor;
+    public static void ignoreActivity(Class... activities) {
+        excludedActivitiesList = new ArrayList<>();
+        Collections.addAll(excludedActivitiesList, activities);
     }
 
     /**
@@ -202,46 +218,95 @@ public class InstaMonitor {
         int hrs = (int) TimeUnit.MILLISECONDS.toHours(milliSeconds) % 24;
         int min = (int) TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
         int sec = (int) TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
-        return String.format(Locale.US," %02dd : %02dh : %02dm : %02ds", dys, hrs, min, sec);
+        return String.format(Locale.US, " %02dd : %02dh : %02dm : %02ds", dys, hrs, min, sec);
     }
 
     /**
      * @return ArrayList of Sessions contains  name and duration
      */
     public ArrayList<Session> getMonitorData() {
-        ArrayList<Session>sessionsList;
-        List<String>fragmentsIds;
         sessionsList = new ArrayList<>();
+        addApplicationSessionToList();
+        addActivitiesSessionsToList();
+        addFragmentsSessionsToList();
+        return sessionsList;
+    }
+
+    /**
+     * get Application Session From Shared
+     * and add it to sessions list
+     * added recently calculate the live session (current)
+     */
+    private void addApplicationSessionToList() {
+        Session appSession = new Session();
+        Long pastTime = Prefs.getLongPreference(application, Prefs.APP_SESSION, 0);
+        Long currentSession = System.currentTimeMillis() - getStartTime();
+        appSession.setName(application.getClass().getName());
+        appSession.setTime(convertDuration(currentSession + pastTime));
+        sessionsList.add(appSession);
+    }
+
+    /**
+     * get activities sessions and add them to sessions list
+     */
+    private void addActivitiesSessionsToList() {
         if (list != null) {
-            Session appSession = new Session();
-            appSession.setName(application.getClass().getName());
-            appSession.setTime(convertDuration(Prefs.getLongPreference(application, Prefs.APP_SESSION, 0)));
-            sessionsList.add(appSession);
             for (ActivityInfo activity : list) {
-                Session session = new Session();
-                session.setName(activity.name);
-                session.setTime(convertDuration(Prefs.getLongPreference(application, activity.name + Prefs.SESSION, 0)));
-                sessionsList.add(session);
-            }
-        }
-           fragmentsIds= Prefs.getFragmentsIdFromShared(application);
-            if (fragmentsIds!=null)
-            {
-                for (String fragmentId : fragmentsIds) {
+                if (!excludedActivitiesList.contains(getActivityClassFromActivityInfo(activity))) {
                     Session session = new Session();
-                    session.setName(fragmentId);
-                    session.setTime(convertDuration(Prefs.getLongPreference(application, fragmentId+ Prefs.SESSION, 0)));
+                    session.setName(activity.name);
+                    session.setTime(convertDuration(Prefs.getLongPreference(application, activity.name + Prefs.SESSION, 0)));
                     sessionsList.add(session);
                 }
             }
-            return sessionsList;
+        }
     }
+
+    /**
+     * @param activityInfo to get the actual activity class object
+     * @return class object for activity exists in activityInfo
+     */
+    private Class getActivityClassFromActivityInfo(ActivityInfo activityInfo)
+    {
+        Class activityClass=null;
+        try {
+            activityClass = Class.forName(activityInfo.name);
+        } catch (ClassNotFoundException e) {
+            InstaLog.d("Can't get Class Object from Activity Info"+e.getMessage());
+        }
+        return activityClass;
+    }
+
+    /**
+     * get fragments sessions and add them to sessions list
+     */
+    private void addFragmentsSessionsToList() {
+        List<String> fragmentsIds;
+        fragmentsIds = Prefs.getFragmentsIdFromShared(application);
+        if (fragmentsIds != null) {
+            for (String fragmentId : fragmentsIds) {
+                Session session = new Session();
+                session.setName(fragmentId);
+                session.setTime(convertDuration(Prefs.getLongPreference(application, fragmentId + Prefs.SESSION, 0)));
+                sessionsList.add(session);
+            }
+        }
+    }
+
 
     /**
      * @return startTime as long of milliseconds
      */
     public long getStartTime() {
         return startTime;
+    }
+
+    /**
+     * reset all stored states
+     */
+    public void resetSessionsState() {
+        Prefs.resetAllSavedSessions(application);
+        setStartTime();
     }
 
 }

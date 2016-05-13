@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/InstaMonitor.iml" filepath="$PROJECT_DIR$/InstaMonitor.iml" />
       <module fileurl="file://$PROJECT_DIR$/InstaMonitor/InstaMonitor.iml" filepath="$PROJECT_DIR$/InstaMonitor/InstaMonitor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InstaMonitor/InstaMonitor-InstaMonitor.iml" filepath="$PROJECT_DIR$/InstaMonitor/InstaMonitor-InstaMonitor.iml" />
       <module fileurl="file://$PROJECT_DIR$/InstaMonitorSample.iml" filepath="$PROJECT_DIR$/InstaMonitorSample.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
