@@ -5,6 +5,7 @@ import android.app.Application;
 import com.brandedme.hossamhassan.instamonitor.InstaMonitor;
 
 /**
+ * InstaApplication Class
  * Created by Hossam on 5/11/2016.
  */
 public class InstaApplication extends Application {

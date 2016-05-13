@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.brandedme.hossamhassan.instamonitor.InstaMonitor;
-import com.brandedme.hossamhassan.instamonitor.Session;
+import com.brandedme.hossamhassan.instamonitor.model.Session;
 
 import java.util.ArrayList;
 

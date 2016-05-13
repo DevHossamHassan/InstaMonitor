@@ -1,10 +1,15 @@
-package com.brandedme.hossamhassan.instamonitor;
+package com.brandedme.hossamhassan.instamonitor.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.brandedme.hossamhassan.instamonitor.InstaMonitor;
+import com.brandedme.hossamhassan.instamonitor.util.InstaLog;
+import com.brandedme.hossamhassan.instamonitor.util.Prefs;
+
 /**
+ * InstaTaskService for track the application session
  * Created by HossamHassan on 5/11/2016.
  */
 public class InstaTaskService extends Service {
@@ -31,7 +36,7 @@ public class InstaTaskService extends Service {
      */
     public void onTaskRemoved(Intent rootIntent) {
         InstaLog.d("Application END");
-        Long startTime=Prefs.getLongPreference(this,Prefs.APP_SESSION_STARTED,InstaMonitor.getInstance().getStartTime());
+        Long startTime= Prefs.getLongPreference(this,Prefs.APP_SESSION_STARTED, InstaMonitor.getInstance().getStartTime());
         Long endTime= System.currentTimeMillis();
         Long pastTime=Prefs.getLongPreference(this,Prefs.APP_SESSION,0);
         pastTime+=(endTime-startTime);

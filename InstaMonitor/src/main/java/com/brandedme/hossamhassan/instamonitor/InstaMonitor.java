@@ -8,6 +8,11 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.brandedme.hossamhassan.instamonitor.model.Session;
+import com.brandedme.hossamhassan.instamonitor.service.InstaTaskService;
+import com.brandedme.hossamhassan.instamonitor.util.InstaLog;
+import com.brandedme.hossamhassan.instamonitor.util.Prefs;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,8 +21,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by HossamHassan on 5/10/2016.
  * InstaMonitor  is a singleton using lazy instantiation technique
+ * Created by HossamHassan on 5/10/2016.
  */
 public class InstaMonitor {
     private static String TAG = "INSTA_MONITOR";
@@ -28,18 +33,38 @@ public class InstaMonitor {
     private static ArrayList<Class> excludedActivitiesList;
     private static Boolean enableDebugMode = false;
 
+    /**
+     * Gets tag.
+     *
+     * @return the tag
+     */
     public static String getTAG() {
         return TAG;
     }
 
+    /**
+     * Sets tag.
+     *
+     * @param TAG the tag
+     */
     public static void setTAG(String TAG) {
         InstaMonitor.TAG = TAG;
     }
 
+    /**
+     * Is enabled debug mode boolean.
+     *
+     * @return the boolean
+     */
     public static Boolean isEnabledDebugMode() {
         return enableDebugMode;
     }
 
+    /**
+     * Sets enable debug mode.
+     *
+     * @param enableDebugMode the enable debug mode
+     */
     public static void setEnableDebugMode(Boolean enableDebugMode) {
         InstaMonitor.enableDebugMode = enableDebugMode;
     }
@@ -70,15 +95,15 @@ public class InstaMonitor {
         this.application = application;
         setStartTime();
         registerCallbacks();
-        startWatcherService();
+        startInstaService();
         getActivitiesList();
     }
 
     /**
      * start service for notify if application task is killed
      */
-    void startWatcherService() {
-        InstaLog.d("startWatcherService: ");
+    void startInstaService() {
+        InstaLog.d("startService: ");
         application.startService(new Intent(application, InstaTaskService.class));
     }
 
@@ -199,6 +224,7 @@ public class InstaMonitor {
 
     /**
      * add activities for ignore monitoring
+     *
      * @param activities Class get excluded activities from tracking
      */
     public static void ignoreActivity(Class... activities) {
@@ -222,6 +248,8 @@ public class InstaMonitor {
     }
 
     /**
+     * Gets monitor data.
+     *
      * @return ArrayList of Sessions contains  name and duration
      */
     public ArrayList<Session> getMonitorData() {
@@ -266,13 +294,12 @@ public class InstaMonitor {
      * @param activityInfo to get the actual activity class object
      * @return class object for activity exists in activityInfo
      */
-    private Class getActivityClassFromActivityInfo(ActivityInfo activityInfo)
-    {
-        Class activityClass=null;
+    private Class getActivityClassFromActivityInfo(ActivityInfo activityInfo) {
+        Class activityClass = null;
         try {
             activityClass = Class.forName(activityInfo.name);
         } catch (ClassNotFoundException e) {
-            InstaLog.d("Can't get Class Object from Activity Info"+e.getMessage());
+            InstaLog.d("Can't get Class Object from Activity Info" + e.getMessage());
         }
         return activityClass;
     }
@@ -295,6 +322,8 @@ public class InstaMonitor {
 
 
     /**
+     * Gets start time.
+     *
      * @return startTime as long of milliseconds
      */
     public long getStartTime() {

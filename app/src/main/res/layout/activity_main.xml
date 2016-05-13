@@ -18,13 +18,13 @@
             android:id="@+id/btnFeedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send FeedBack"/>
+            android:text="Open 2nd Activity"/>
 
         <Button
             android:id="@+id/btnReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send Report"/>
+            android:text="Open Fragment"/>
     </android.support.v7.widget.LinearLayoutCompat>
     <FrameLayout
         android:id="@+id/main_container"

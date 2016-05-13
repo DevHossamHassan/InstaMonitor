@@ -1,4 +1,4 @@
-package com.brandedme.hossamhassan.instamonitor;
+package com.brandedme.hossamhassan.instamonitor.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,12 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.brandedme.hossamhassan.instamonitor.InstaMonitor;
+import com.brandedme.hossamhassan.instamonitor.util.InstaLog;
+import com.brandedme.hossamhassan.instamonitor.util.Prefs;
+
 /**
  * InstaFragmentS4 extended from Fragment from android support v4
  * for tracking Fragments that will extend it
  * Created by Hossam on 5/12/2016.
  */
 public class InstaFragmentS4 extends Fragment {
+    /**
+     * Instantiates a new Insta fragment s 4.
+     */
     public InstaFragmentS4() {
         super();
     }

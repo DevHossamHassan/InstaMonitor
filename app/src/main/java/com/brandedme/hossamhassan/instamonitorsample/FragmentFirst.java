@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.brandedme.hossamhassan.instamonitor.InstaFragmentS4;
+import com.brandedme.hossamhassan.instamonitor.Fragment.InstaFragmentS4;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

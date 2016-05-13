@@ -1,4 +1,4 @@
-package com.brandedme.hossamhassan.instamonitor;
+package com.brandedme.hossamhassan.instamonitor.util;
 
 /**
  * helpful getter and setter methods for reading/writing to SharedPreferences
@@ -16,13 +16,37 @@ import java.util.List;
  * helpful getter and setter methods for reading/writing to SharedPreferences
  */
 final public class Prefs {
+    /**
+     * The constant APP_SESSION.
+     */
     final public static String APP_SESSION = "APP_SESSION";
+    /**
+     * The constant START.
+     */
     final public static String START = "START";
+    /**
+     * The constant END.
+     */
     final public static String END = "END";
+    /**
+     * The constant SESSION.
+     */
     final public static String SESSION = "SESSION";
+    /**
+     * The constant APP_SESSION_STARTED.
+     */
     public static String APP_SESSION_STARTED = "APP_SESSION_STARTED";
+    /**
+     * The constant APP_SESSION_ENDED.
+     */
     public static String APP_SESSION_ENDED = "APP_SESSION_ENDED";
+    /**
+     * The constant FRAGMENT_NAMES.
+     */
     final public static String FRAGMENT_NAMES = "FRAGMENT_NAMES";
+    /**
+     * The constant PREF_FILE_NAME for our sharedPreferences File.
+     */
     final private static String PREF_FILE_NAME="INSTAMONITOR_PREFERENCES";
     private Prefs() {
     }
@@ -62,6 +86,8 @@ final public class Prefs {
     }
 
     /**
+     * Add fragment id to shared boolean.
+     *
      * @param context    a {@link Context} object.
      * @param fragmentId value of this unique key
      * @return true if done and false if no preferences
@@ -75,22 +101,22 @@ final public class Prefs {
     }
 
     /**
+     * Is exist in shared boolean.
+     *
      * @param context    for sharedPreferences
      * @param fragmentId for the value to search for
      * @return true if exist false if does not exist
      */
     public static boolean isExistInShared(Context context, String fragmentId) {
         String fragmentsIds = getStringPreference(context, FRAGMENT_NAMES);
-        if (fragmentsIds == null || !fragmentsIds.contains(fragmentId))
-            return false;
-        return true;
+        return !(fragmentsIds == null || !fragmentsIds.contains(fragmentId));
     }
 
     /**
      * get List of Fragment Names from shared
      *
      * @param context a {@link Context} object.
-     * @return
+     * @return List of Fragment Names as list of strings from shared
      */
     public static List<String> getFragmentsIdFromShared(Context context) {
         String saved = getStringPreference(context, FRAGMENT_NAMES);
@@ -139,6 +165,7 @@ final public class Prefs {
 
     /**
      * remove all saved sessions durations
+     *
      * @param context get context for shared preferences
      * @return true if done false if not
      */

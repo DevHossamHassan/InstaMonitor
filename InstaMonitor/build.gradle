@@ -5,12 +5,12 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     group = 'com.brandedme.hossamhassan.InstaMonitor'
-    version = '1.0.7'
+    version = '1.0.8'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 7
-        versionName "1.0.7"
+        versionCode 8
+        versionName "1.0.8"
     }
     buildTypes {
         release {
@@ -52,10 +52,10 @@ bintray {
         name = 'com.brandedme.hossamhassan.InstaMonitor'
 
         version {
-            name = '1.0.7'
+            name = '1.0.8'
             desc = 'monitor fragments'
             released  = new Date()
-            vcsTag = '1.0.7'
+            vcsTag = '1.0.8'
         }
 
         licenses = ['Apache-2.0']
