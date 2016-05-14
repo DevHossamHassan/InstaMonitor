@@ -36,7 +36,7 @@ InstaMonitor is an Android library that can provide the following for any applic
 
    gradle :
    
-               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.7'
+               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.8'
   
    Or
 
@@ -45,6 +45,65 @@ InstaMonitor is an Android library that can provide the following for any applic
               <dependency>
                 <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
                 <artifactId>InstaMonitor</artifactId>
-                <version>1.0.7</version>
+                <version>1.0.8</version>
                 <type>pom</type>
               </dependency>
+#Full Example 
+   
+  1- Configure InstaMonitor
+     add these lines to your application class 
+     
+      public class YourApplication extends Application {
+           @Override
+           public void onCreate() {
+                          super.onCreate();
+        
+                          //Init InstaMonitor
+                          InstaMonitor.getInstance().init(this);
+        
+                          //Enable debug mode, false by default.
+                          InstaMonitor.setEnableDebugMode(true);
+        
+                          //Ignore tracking for a particular Activity
+                          InstaMonitor.ignoreActivity(SecondActivity.class);
+           }
+     }
+
+  2- Get The Sessions Data anywhere and anytime,
+   using one line of code 
+   
+                        ArrayList<Session> sessionsList = InstaMonitor.getInstance().getMonitorData();
+
+   and you can reset all sessions states by 
+   
+                        InstaMonitor.getInstance().resetSessionsState();
+
+ see the full example you would create something like this,
+        in your Activity onCreate 
+        
+        
+         public class YourActivity extends AppCompatActivity {
+            //sample textView 
+            TextView tvData;
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        setContentView(R.layout.activity_second);
+                      //bind the textView 
+                      tvData=(TextView)findViewById(R.id.tvDataMap);
+                      //get Sessions And set the data to Text view
+                      setDataToView();
+
+
+              }
+       void setDataToViews() {
+            ArrayList<Session> sessionsList = InstaMonitor.getInstance().getMonitorData();
+                 if (sessionsList != null) {
+                       for (Session session : sessionsList) {
+                       String data = tvData.getText() + session.getShortName() + "\t" + session.getTime()+"\n";
+                       tvData.setText(data);
+                       }
+                  } else
+                        tvData.setText("Null");
+             }
+      
