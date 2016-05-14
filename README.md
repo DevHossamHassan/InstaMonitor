@@ -69,8 +69,16 @@ InstaMonitor is an Android library that can provide the following for any applic
            }
      }
 
-  2- Get The Sessions Data anywhere and anytime 
-     you would create something like this 
+  2- Get The Sessions Data anywhere and anytime,
+   using one line of code 
+   
+                        ArrayList<Session> sessionsList = InstaMonitor.getInstance().getMonitorData();
+
+   and you can reset all sessions states by 
+   
+                        InstaMonitor.getInstance().resetSessionsState();
+
+ see the full example you would create something like this,
         in your Activity onCreate 
         
         
