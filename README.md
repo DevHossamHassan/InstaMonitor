@@ -49,7 +49,10 @@ InstaMonitor is an Android library that can provide the following for any applic
                 <type>pom</type>
               </dependency>
 #Full Example 
-
+   
+  1- Configure InstaMonitor
+     add these lines to your application class 
+     
       public class YourApplication extends Application {
            @Override
            public void onCreate() {
@@ -66,4 +69,33 @@ InstaMonitor is an Android library that can provide the following for any applic
            }
      }
 
+  2- Get The Sessions Data anywhere and anytime 
+     you would create something like this 
+        in your Activity onCreate 
+        
+        
+         public class YourActivity extends AppCompatActivity {
+            //sample textView 
+            TextView tvData;
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        setContentView(R.layout.activity_second);
+                      //bind the textView 
+                      tvData=(TextView)findViewById(R.id.tvDataMap);
+                      //get Sessions And set the data to Text view
+                      setDataToView();
 
+
+              }
+       void setDataToViews() {
+            ArrayList<Session> sessionsList = InstaMonitor.getInstance().getMonitorData();
+                 if (sessionsList != null) {
+                       for (Session session : sessionsList) {
+                       String data = tvData.getText() + session.getShortName() + "\t" + session.getTime()+"\n";
+                       tvData.setText(data);
+                       }
+                  } else
+                        tvData.setText("Null");
+             }
+      
