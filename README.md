@@ -36,7 +36,7 @@ InstaMonitor is an Android library that can provide the following for any applic
 
    gradle :
    
-               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.8'
+               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.9'
   
    Or
 
@@ -45,7 +45,7 @@ InstaMonitor is an Android library that can provide the following for any applic
               <dependency>
                 <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
                 <artifactId>InstaMonitor</artifactId>
-                <version>1.0.8</version>
+                <version>1.0.9</version>
                 <type>pom</type>
               </dependency>
 #Full Example 
