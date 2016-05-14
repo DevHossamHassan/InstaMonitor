@@ -32,6 +32,7 @@ public class SecondActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+        TextView tvData=(TextView)findViewById(R.id.tvDataMap);
 
 
     }
