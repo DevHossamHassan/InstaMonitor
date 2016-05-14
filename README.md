@@ -51,7 +51,7 @@ InstaMonitor is an Android library that can provide the following for any applic
 #Full Example 
    
   1- Configure InstaMonitor
-     add these lines to your application class 
+      your application class should look like:
      
       public class YourApplication extends Application {
            @Override
@@ -74,7 +74,7 @@ InstaMonitor is an Android library that can provide the following for any applic
    
                         ArrayList<Session> sessionsList = InstaMonitor.getInstance().getMonitorData();
 
-   and you can reset all sessions states by 
+   and you can reset all sessions states using resetSessionsState method 
    
                         InstaMonitor.getInstance().resetSessionsState();
 
