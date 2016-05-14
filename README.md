@@ -48,3 +48,22 @@ InstaMonitor is an Android library that can provide the following for any applic
                 <version>1.0.8</version>
                 <type>pom</type>
               </dependency>
+#Full Example 
+
+public class YourApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        
+        //Init InstaMonitor
+        InstaMonitor.getInstance().init(this);
+        
+        //Enable debug mode, false by default.
+        InstaMonitor.setEnableDebugMode(true);
+        
+        //Ignore tracking for a particular Activity
+        InstaMonitor.ignoreActivity(SecondActivity.class);
+    }
+}
+
+
