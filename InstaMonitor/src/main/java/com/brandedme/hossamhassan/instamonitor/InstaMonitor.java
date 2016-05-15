@@ -97,6 +97,7 @@ public class InstaMonitor {
         registerCallbacks();
         startInstaService();
         getActivitiesList();
+        excludedActivitiesList=new ArrayList<>();
     }
 
     /**
