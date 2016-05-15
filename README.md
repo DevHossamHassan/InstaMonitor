@@ -54,7 +54,7 @@ InstaMonitor is an Android library that can provide the following for any applic
    
    step by step tutorials :
    
-  1- Configure InstaMonitor
+  1- Configure InstaMonitor,
       your application class should look like:
      
       public class YourApplication extends Application {
