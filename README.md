@@ -36,7 +36,7 @@ InstaMonitor is an Android library that can provide the following for any applic
 
    gradle :
    
-               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.0.9'
+               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.1.0'
   
    Or
 
@@ -45,13 +45,17 @@ InstaMonitor is an Android library that can provide the following for any applic
               <dependency>
                 <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
                 <artifactId>InstaMonitor</artifactId>
-                <version>1.0.9</version>
+                <version>1.1.0</version>
                 <type>pom</type>
               </dependency>
 #Full Example 
+   you can take a look at  [InstaMonitorSample2] (https://github.com/DevHossamHassan/InstaMonitorSample2) application 
+   
+   
+   step by step tutorials :
    
   1- Configure InstaMonitor
-     add these lines to your application class 
+      your application class should look like:
      
       public class YourApplication extends Application {
            @Override
@@ -74,7 +78,7 @@ InstaMonitor is an Android library that can provide the following for any applic
    
                         ArrayList<Session> sessionsList = InstaMonitor.getInstance().getMonitorData();
 
-   and you can reset all sessions states by 
+   and you can reset all sessions states using resetSessionsState method 
    
                         InstaMonitor.getInstance().resetSessionsState();
 
