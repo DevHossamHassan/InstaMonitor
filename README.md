@@ -49,6 +49,11 @@ InstaMonitor is an Android library that can provide the following for any applic
                 <type>pom</type>
               </dependency>
 #Full Example 
+   you can take a look at sample2 application 
+   
+             https://github.com/DevHossamHassan/InstaMonitorSample2
+   
+   step by step tutorials :
    
   1- Configure InstaMonitor
       your application class should look like:
