@@ -103,7 +103,7 @@ public class InstaMonitor {
     /**
      * start service for notify if application task is killed
      */
-    void startInstaService() {
+    private void startInstaService() {
         InstaLog.d("startService: ");
         application.startService(new Intent(application, InstaTaskService.class));
     }
@@ -189,7 +189,7 @@ public class InstaMonitor {
      * @param context   set timestamp for each activity or fragment  at onPaused event
      * @param className could be full name of Activity or fragment
      */
-    public void calculateSession(Context context, String className) {
+    private void calculateSession(Context context, String className) {
 
         Long currentTime = System.currentTimeMillis();
 
@@ -207,7 +207,7 @@ public class InstaMonitor {
     /**
      * get all application activities
      */
-    void getActivitiesList() {
+    private void getActivitiesList() {
         list = new ArrayList<>();
         try {
             list = Arrays.asList(application.getPackageManager().getPackageInfo(application.getPackageName(),
@@ -239,7 +239,7 @@ public class InstaMonitor {
      * @param milliSeconds timestamp in milliSeconds could be System.currentTimeMillis()
      * @return Duration as a String
      */
-    public String convertDuration(long milliSeconds) {
+    private String convertDuration(long milliSeconds) {
 
         int dys = (int) TimeUnit.MILLISECONDS.toDays(milliSeconds);
         int hrs = (int) TimeUnit.MILLISECONDS.toHours(milliSeconds) % 24;
@@ -327,7 +327,7 @@ public class InstaMonitor {
      *
      * @return startTime as long of milliseconds
      */
-    public long getStartTime() {
+    private long getStartTime() {
         return startTime;
     }
 
