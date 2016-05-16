@@ -189,7 +189,7 @@ public class InstaMonitor {
      * @param context   set timestamp for each activity or fragment  at onPaused event
      * @param className could be full name of Activity or fragment
      */
-    private void calculateSession(Context context, String className) {
+    public void calculateSession(Context context, String className) {
 
         Long currentTime = System.currentTimeMillis();
 
@@ -327,7 +327,7 @@ public class InstaMonitor {
      *
      * @return startTime as long of milliseconds
      */
-    private long getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 

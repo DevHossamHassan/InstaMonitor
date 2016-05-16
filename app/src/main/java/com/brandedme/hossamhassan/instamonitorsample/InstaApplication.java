@@ -15,6 +15,6 @@ public class InstaApplication extends Application {
         //init InstaMonitor
         InstaMonitor.getInstance().init(this);
         InstaMonitor.setEnableDebugMode(true);
-        InstaMonitor.ignoreActivity(SecondActivity.class);
+        //InstaMonitor.ignoreActivity(SecondActivity.class);
     }
 }
