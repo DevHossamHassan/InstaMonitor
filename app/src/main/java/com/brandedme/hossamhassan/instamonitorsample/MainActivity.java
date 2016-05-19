@@ -18,11 +18,11 @@ public class MainActivity extends AppCompatActivity {
         InstaMonitor.getInstance().resetSessionsState();
         Toast.makeText(MainActivity.this, "All sessions duration removed !", Toast.LENGTH_SHORT).show();
     }
-    @OnClick(R.id.btnFeedback)void onFeedBackClicked()
+    @OnClick(R.id.btnOpenSecondActivity)void onOpenSecondActivityButtonClicked()
     {
         startActivity(new Intent(this,SecondActivity.class));
     }
-    @OnClick(R.id.btnReport)void onReportClicked()
+    @OnClick(R.id.btnOpenFirstFragment)void onOpenFirstFragmentButtonClicked()
     {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack("First");
