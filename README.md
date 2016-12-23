@@ -14,16 +14,16 @@ InstaMonitor is an Android library that can provide the following for any applic
 # Usage
 
   just one line of code to add to your Application class:
-
+   ```java
                  InstaMonitor.getInstance().init(this);
-        
-        
+   ```
+
         
   and now feel free to get the data anytime and  anywhere.
-          
+   ```java
                     ArrayList<Session> sessionsList;
                     sessionsList = InstaMonitor.getInstance().getMonitorData();
-                    
+   ```
   for tracking your fragments usage 
   
       just extend InstaFragment    if you plan to extend Fragment from android.app.Fragment
@@ -35,19 +35,20 @@ InstaMonitor is an Android library that can provide the following for any applic
   Including in your project via :
 
    gradle :
-   
+   ```gradle
                compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.1.0'
-  
+   ```
    Or
 
    Maven :
-   
+   ```maven
               <dependency>
                 <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
                 <artifactId>InstaMonitor</artifactId>
                 <version>1.1.0</version>
                 <type>pom</type>
               </dependency>
+   ```
 #Full Example 
    you can take a look at  [InstaMonitorSample2] (https://github.com/DevHossamHassan/InstaMonitorSample2) application 
    
@@ -56,7 +57,7 @@ InstaMonitor is an Android library that can provide the following for any applic
    
   1- Configure InstaMonitor,
       your application class should look like:
-     
+  ```java
       public class YourApplication extends Application {
            @Override
            public void onCreate() {
@@ -72,20 +73,21 @@ InstaMonitor is an Android library that can provide the following for any applic
                           InstaMonitor.ignoreActivity(SecondActivity.class);
            }
      }
+   ```
 
   2- Get The Sessions Data anywhere and anytime,
    using one line of code 
-   
+   ```java
                         ArrayList<Session> sessionsList = InstaMonitor.getInstance().getMonitorData();
-
+   ```
    and you can reset all sessions states using resetSessionsState method 
-   
+   ```java
                         InstaMonitor.getInstance().resetSessionsState();
-
+   ```
  see the full example you would create something like this,
         in your Activity onCreate 
         
-        
+ ```java
          public class YourActivity extends AppCompatActivity {
             //sample textView 
             TextView tvData;
@@ -109,5 +111,7 @@ InstaMonitor is an Android library that can provide the following for any applic
                        }
                   } else
                         tvData.setText("Null");
+                        }
              }
       
+```
