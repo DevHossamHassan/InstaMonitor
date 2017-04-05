@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.brandedme.hossamhassan.instamonitor.model.Session;
 import com.brandedme.hossamhassan.instamonitor.service.InstaTaskService;
 import com.brandedme.hossamhassan.instamonitor.util.InstaLog;
 import com.brandedme.hossamhassan.instamonitor.util.Prefs;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +34,7 @@ public class InstaMonitor {
     private List<ActivityInfo> list;
     private static ArrayList<Class> excludedActivitiesList;
     private static Boolean enableDebugMode = false;
+    private WeakReference<Activity> currentActivity;
 
     /**
      * Gets tag.
@@ -97,7 +100,7 @@ public class InstaMonitor {
         registerCallbacks();
         startInstaService();
         getActivitiesList();
-        excludedActivitiesList=new ArrayList<>();
+        excludedActivitiesList = new ArrayList<>();
     }
 
     /**
@@ -138,6 +141,7 @@ public class InstaMonitor {
 
             @Override
             public void onActivityResumed(Activity activity) {
+                currentActivity = new WeakReference<>(activity);
                 if (!excludedActivitiesList.contains(activity.getClass())) {
                     String activityName = activity.getClass().getName();
                     InstaLog.d("onActivityResumed: " + activityName);
@@ -339,4 +343,30 @@ public class InstaMonitor {
         setStartTime();
     }
 
+    @Nullable
+    public Activity getCurrentActivity() {
+        if (currentActivity != null && currentActivity.get() != null) {
+            return currentActivity.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Nullable
+    public Activity getTargetActivity() {
+        Activity target = null;
+        if (currentActivity != null
+                && currentActivity.get() != null
+                && currentActivity.get().getParent() != null) {
+
+            target = currentActivity.get().getParent();
+            while (target.getParent() != null) {
+                target = target.getParent();
+            }
+        } else if (currentActivity != null) {
+            target = currentActivity.get();
+        }
+
+        return target;
+    }
 }
