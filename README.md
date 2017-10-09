@@ -1,4 +1,4 @@
-# InstaMonitor
+# InstaMonitor [![Release](https://jitpack.io/v/DevHossamHassan/InstaMonitor.svg)](https://jitpack.io/#DevHossamHassan/InstaMonitor)
 InstaMonitor is an Android library that can provide the following for any application:
 
 1. Period of time for which the application was open 
@@ -36,19 +36,18 @@ InstaMonitor is an Android library that can provide the following for any applic
 
    gradle :
    ```gradle
-               compile 'com.brandedme.hossamhassan.InstaMonitor:InstaMonitor:1.1.0'
+                   compile 'com.github.DevHossamHassan:InstaMonitor:1.3.0'
    ```
-   Or
+  
+Add this to your root `build.gradle` file (**not** your module `build.gradle` file) :
+    
+    allprojects {
+        repositories {
+            ...
+            maven { url "https://jitpack.io" }
+        }
+    }
 
-   Maven :
-   ```maven
-              <dependency>
-                <groupId>com.brandedme.hossamhassan.InstaMonitor</groupId>
-                <artifactId>InstaMonitor</artifactId>
-                <version>1.1.0</version>
-                <type>pom</type>
-              </dependency>
-   ```
 #Full Example 
    you can take a look at  [InstaMonitorSample2] (https://github.com/DevHossamHassan/InstaMonitorSample2) application 
    
