@@ -34,19 +34,21 @@ InstaMonitor is an Android library that can provide the following for any applic
 # Setup
   Including in your project via :
 
-   gradle :
-   ```gradle
-                   compile 'com.github.DevHossamHassan:InstaMonitor:1.3.0'
-   ```
+   gradle:
+```gradle
+                compile 'com.github.DevHossamHassan:InstaMonitor:1.3.0'
+```
   
 Add this to your root `build.gradle` file (**not** your module `build.gradle` file) :
     
-    allprojects {
-        repositories {
-            ...
-            maven { url "https://jitpack.io" }
-        }
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
     }
+}
+```
 
 #Full Example 
    you can take a look at  [InstaMonitorSample2] (https://github.com/DevHossamHassan/InstaMonitorSample2) application 
