@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
-
+group="com.brandedme.hossamhassan"
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
